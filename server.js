@@ -1,10 +1,7 @@
-// @ts-check
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import express from 'express'
-
-const isTest = process.env.VITEST
 
 export async function createServer(
   root = process.cwd(),
@@ -36,7 +33,7 @@ export async function createServer(
         ).createServer({
             base: '/',
             root,
-            logLevel: isTest ? 'error' : 'info',
+            logLevel: 'info',
             server: {
                 middlewareMode: true,
                 watch: {
@@ -97,10 +94,8 @@ export async function createServer(
     return { app, vite }
 }
 
-if (!isTest) {
-    createServer(process.cwd(),true).then(({ app }) =>
-      app.listen(4444, () => {
-          console.log('http://localhost:4444')
-      }),
-    )
-}
+createServer().then(({ app }) =>
+  app.listen(5555, () => {
+      console.log('http://localhost:5555')
+  }),
+)
